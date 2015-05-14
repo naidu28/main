@@ -1,0 +1,66 @@
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+
+import com.teknikindustries.yahooweather.WeatherDisplay;
+import com.teknikindustries.yahooweather.WeatherDoc;
+
+public class Location
+{
+    private String location;
+    private HashMap<CustomerCityRule, Boolean> appliedRules = new HashMap<CustomerCityRule, Boolean>();
+	private ArrayList<WeatherDoc> days = new ArrayList<WeatherDoc>();
+	WeatherDoc d;
+	WeatherDisplay dis;
+    
+    public Location(String location, List<CustomerCityRule> rules)
+    {
+    	this.location = location;
+        for (CustomerCityRule r : rules) {
+            appliedRules.put(r, false);
+        }
+        d = new WeatherDoc(location, "f");
+        dis = new WeatherDisplay();
+    }
+    
+   public boolean applyRule(CustomerCityRule r) {
+	    if (!appliedRules.get(r)) {
+	        appliedRules.put(r, new Boolean(true));
+	        return true;
+	    } 
+	    else 
+	    	return false;
+	}
+	        
+	public String getLocation() {
+		return dis.getCity() + ", " + dis.getCountry();
+	}
+	
+	public String toString()
+	{
+        return "Location: " + getLocation();
+	}
+	
+	public String getTemp(){
+		return dis.getTemperature();	
+	}
+
+	public int size(){
+        return days.size();
+    }
+	
+	public void add(WeatherDoc d)
+    {
+        days.add(d);
+    }
+    
+	public WeatherDoc get(int i)
+	{
+		if (i < 0 || i >= days.size())
+			return null;
+			
+		return days.get(i);
+	}
+}

@@ -1,0 +1,37 @@
+import java.awt.Rectangle;
+
+public class Target {
+    private Rectangle rect;
+    private int x;
+    private int y;
+    private double velocity;
+    
+    public Target(int x, int y) {
+        this.x = x;
+        this.y = y;
+        
+        velocity = Math.random()*5 + 1;
+        rect = new Rectangle(x, y, 30, 10);
+    }
+    
+    public void moveTarget() {
+    	System.out.println("y is :" +y);
+    	int state = 0;
+    	
+        if (y <= 50) {
+            state = 1;
+        } else if (y >= BasicCannon.FLOOR) {
+            state = 0;
+        }
+        
+        if (state == 0) {
+        	y = y - (int)velocity;
+        } else {
+        	y = y + (int)velocity;
+        }
+    }
+    
+    public Rectangle getRect() {
+        return rect;
+    }
+}

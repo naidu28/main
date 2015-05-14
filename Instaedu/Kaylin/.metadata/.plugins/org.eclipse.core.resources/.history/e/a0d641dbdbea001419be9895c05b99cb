@@ -1,0 +1,16 @@
+package program5;
+
+
+public class GoForRun implements CustomerCityRule 
+{
+    public boolean isApplicable(Location location) 
+    {
+       DayWeather dayWeather = location.get(location.size() - 1);
+     
+        if (dayWeather.getTemp() > 50 && dayWeather.getTemp() < 80)
+        	return true;
+        
+        return false;
+    }
+
+}

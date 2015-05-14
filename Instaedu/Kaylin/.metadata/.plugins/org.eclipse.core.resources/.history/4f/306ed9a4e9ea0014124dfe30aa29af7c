@@ -1,0 +1,100 @@
+
+
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.io.File;
+import com.teknikindustries.yahooweather.WeatherDoc;
+
+public class Processor {
+	static List<CustomerCityRule> rules = new LinkedList<CustomerCityRule>();
+	static List<Location> locations = new LinkedList<Location>();
+    static List<Customer> customers = new LinkedList<Customer>();
+    static WeatherSimulator w;
+    
+	public static void process() {
+		new WeatherSimulator(customers, rules, locations);
+	}
+	
+	public static void customerRules() {
+	    for (Customer c : customers) {
+	        int i = (int)(Math.random()*4);
+	        for (int j = 0; j <= i; j++) {
+	            c.addRule(rules.get(j));
+	        }
+	    }
+	}
+	
+	public static void customerLocations() {
+	    for (Customer c : customers) {
+	        int i = (int)(Math.random()*95) + 5;
+	        for (int j = i - 4; j <= i; j++) {
+	            c.addLocation(locations.get(j));
+	            System.out.println(locations.get(j).toString());
+	        }
+	    }
+	}
+	
+	public static void main (String args[]){
+		try {
+			customers.add(new Customer("Alice", "Applebee"));
+		    customers.add(new Customer("Bob", "Burgers"));
+		    /*customers.add(new Customer("Greg", "Oden"));
+		    customers.add(new Customer("Camille", "Smith"));
+		    customers.add(new Customer("Michael", "Jordan"));
+		    customers.add(new Customer("Kobe", "Bryant"));
+		    customers.add(new Customer("Lebron", "James"));
+		    customers.add(new Customer("David", "Beckham"));
+		    customers.add(new Customer("Dwayne", "Wade"));
+		    customers.add(new Customer("Justin", "Bieber"));
+		    customers.add(new Customer("Chris", "Brown"));
+		    customers.add(new Customer("Taylor", "Swift"));
+		    customers.add(new Customer("Tim", "Tebow"));
+		    customers.add(new Customer("Serena", "Williams"));
+		    customers.add(new Customer("Maya", "Moore"));
+		    customers.add(new Customer("Miley", "Cyrus"));
+		    customers.add(new Customer("John", "Doe"));
+		    customers.add(new Customer("Jane", "Doe"));
+		    customers.add(new Customer("Nick", "Jonas"));
+		    customers.add(new Customer("Trey", "Songz"));
+		    customers.add(new Customer("Eric", "Smith"));
+		    customers.add(new Customer("Swizz", "Beatz"));
+		    customers.add(new Customer("Dennis", "Pope"));
+		    customers.add(new Customer("Roy", "Roger"));
+		    customers.add(new Customer("Thomas", "Train"));
+		    customers.add(new Customer("Kayla", "Jones"));
+		    customers.add(new Customer("Mariah", "Cannon"));
+		    customers.add(new Customer("Nick", "Carey"));
+		    customers.add(new Customer("Jaden", "Smith"));
+		    customers.add(new Customer("Lisa", "Leslie"));*/	
+			
+			rules.add(new BuyShorts());
+		    rules.add(new WaterGarden());
+			rules.add(new PlanParty());
+			rules.add(new GoForRun());
+			rules.add(new GoOnVacation());
+				
+	    		customerRules();
+	    		
+	    		File f = new File("USCities.txt");
+				Scanner s = new Scanner(f);
+			    s.useDelimiter(Pattern.compile("\\n"));
+			    	while (s.hasNext()){
+				    	String string = s.next();
+				    	Location lo = new Location(string, rules);
+				    	locations.add(lo);
+			    	}
+			customerLocations();
+			s.close();
+		}
+		
+		catch(Exception e) {
+				System.out.println("Exception Caught:\n" + e.getMessage() +"\n" + e.getClass());
+		}
+		
+			process();						
+			GUI g = new GUI();
+			g.runGUI();
+		}
+}

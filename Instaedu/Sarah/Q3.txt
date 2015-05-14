@@ -1,0 +1,7 @@
+Q3:
+
+An increasing wave height causes wave breaking closer to shore.
+Increasing wave height (given constant wave period) implies increasing amplitudes, meaning greater energy, explaining the change in breakpoint.
+An increasing wave period causes wave breaking further from shore.
+Increasing wave period (given constant height) implies decreasing amplitudes, meaning less energy, explaining the change in breakpoint.
+Aside from breaking point, Hmax and the its cross-shore location remain unchanged with wave period, but is directly affected by offshore wave height.

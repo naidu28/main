@@ -1,0 +1,90 @@
+
+
+import java.util.List;
+import java.util.LinkedList;
+import java.util.HashMap;
+
+public class WeatherSimulator{
+	
+	static List<Location> locations;
+	static List<CustomerCityRule> rules;
+	static List<Customer> customers;
+	static HashMap<CustomerCityRule, List<String>> h;
+	HashMap<Location, List<String>> lString;
+	
+	public WeatherSimulator(List<Customer> customers, List<CustomerCityRule> rules, List<Location> locations) {
+		this.locations = locations;
+		this.customers = customers;
+		this.rules = rules;
+		h = new HashMap<CustomerCityRule, List<String>>();
+		lString = new HashMap<Location, List<String>>();
+		
+		for (CustomerCityRule r : rules) {
+			h.put(r, new LinkedList<String>());
+		}
+		
+		for (Location l : locations) {
+			lString.put(l, new LinkedList<String>());
+		}
+	}
+			
+	public static void checkRules() {
+		for (Customer c: customers) {
+			for (CustomerCityRule r: rules) {
+				if(!c.getRules().contains(r)) {
+					boolean applied = false;
+					for (Location l: c.getLocations()) {
+						if (r.isApplicable(l)) {
+						    l.applyRule(r);
+							h.get(r).add("\t" +c.toString() + " Location: " + l.getLocation());
+							applied = true;
+						}
+					}
+					
+					if (applied) {
+						c.getRules().add(r);
+						break; 
+					}
+				} 
+				
+				else {
+				    for (Location l : c.getLocations()) {
+				        if (r.isApplicable(l)) {
+				            if (l.applyRule(r)) {
+				                h.get(r).add("\t" +c.toString() + " Location: " + l.getLocation());
+				            }
+				        }
+				    }
+				}   
+			}
+		}
+	}
+	
+	List<CustomerCityRule> appliedRules = new LinkedList<CustomerCityRule>();
+	
+	public static void displayApplicableLocations() {
+		for (Customer c: customers) {
+			for (Location l: c.getLocations()) {
+				for (CustomerCityRule r: rules) {
+					if (r.isApplicable(l)) {
+						String s = r.getClass().getSimpleName();
+						GUI.outputTextArea.append("\n" + c.toString() + "\nTemperature: " + l.getTemp() + "\u00b0" + "F" + "\n" + l.toString() + "\nNotification: " + s + "\n");
+						GUI.outputTextArea.append("------------------------------------------------------------------------------");
+					}
+					/*else 
+						GUI.outputTextArea.append("\n" + c.toString() + "\nNo Notification");*/
+				}
+			}
+		}
+			//ThreadTest t = new ThreadTest();
+			//Thread t1 =  new Thread(t);
+			//t1.start();
+			/*try {
+				Thread.sleep(2000);
+			} 
+			catch(InterruptedException | IllegalArgumentException ie){
+				System.out.println("Interrupt Exception Caught: " + ie.getMessage());
+			}*/
+	}
+
+}

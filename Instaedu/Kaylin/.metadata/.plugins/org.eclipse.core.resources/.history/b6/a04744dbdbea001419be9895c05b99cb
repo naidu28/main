@@ -1,0 +1,22 @@
+package program5;
+public class DayWeather
+{
+        private int temp;
+        
+        public DayWeather(int temp)
+        {
+            this.temp = temp;
+        }
+            
+        public int getTemp()
+        {
+            return temp;
+        }
+            
+          public String toString()
+        {
+            return "Temperature: " + getTemp() + "\u00b0" + "F";
+        }
+
+        
+}

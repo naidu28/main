@@ -1,0 +1,102 @@
+import java.util.Scanner;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.HashMap;
+
+public class WeatherSimulator{
+	List<Location> locations;
+	List<CustomerCityRule> rules;
+	List<Customer> customers;
+	HashMap<CustomerCityRule, List<String>> h;
+	HashMap<Location, List<String>> lString;
+	
+	Scanner s;
+	
+	
+	public WeatherSimulator(List<Customer> customers, List<CustomerCityRule> rules, List<Location> locations) {
+		this.locations = locations;
+		this.customers = customers;
+		this.rules = rules;
+		h = new HashMap<CustomerCityRule, List<String>>();
+		lString = new HashMap<Location, List<String>>();
+		for (CustomerCityRule r : rules) {
+			h.put(r, new LinkedList<String>());
+		}
+		for (Location l : locations) {
+			lString.put(l, new LinkedList<String>());
+		}
+		s = new Scanner(System.in);
+		boolean b = true;
+		
+		while (b) {
+			System.out.println("Enter \"1\" to push forward a day");
+			String a = s.nextLine();
+			if (a.equals("1")) {
+				advanceDay();
+				displayApplicableLocations();
+				checkRules();
+				display();
+			}
+		}
+	}
+	
+	public void advanceDay() {
+		for (Location l: locations) {
+			double precip = (int)(Math.random()*100);
+			precip = precip/100;
+			double temp = (int)(Math.random()*105);
+			l.add(new DayWeather(temp, precip));
+		}
+	}
+	
+	public void checkRules() {
+		for (Customer c: customers) {
+			for (CustomerCityRule r: rules) {
+				if(!c.getRules().contains(r)) {
+					boolean applied = false;
+					for (Location l: c.getLocations()) {
+						if (r.isApplicable(l)) {
+							h.get(r).add(c.toString() + " Location: " + l.getLocation());
+							applied = true;
+						}
+					}
+					
+					if (applied) {
+						c.getRules().add(r);
+						break;
+					}
+				}
+					
+			}
+		}
+	}
+	
+	public void display() {
+		System.out.println("------------------------------------");
+		System.out.println("\nRules to be applied to the following customers: ");
+		for (CustomerCityRule r : h.keySet()) {
+			List<String> strings = h.get(r);
+			System.out.println(r.getClass().getSimpleName()+": \n");
+			for (String s : strings) {
+				System.out.print(s +", ");
+			}
+		}
+	}
+	
+	public void displayApplicableLocations() {
+		for (Location l : locations) {
+			String s = "";
+			for (CustomerCityRule r : rules) {
+				if (r.isApplicable(l)) {
+					s = s +r.getClass().getSimpleName()+ ", ";
+				}
+			}
+			
+			if (!s.equals("")) {
+				System.out.println("\t" +l.getLocation()+ "\tToday there is a " +(int)(100*l.get(l.size() - 1).getPrecipitation())+ "% chance of precipitation and the high is " +l.get(l.size() - 1).getAverageTemp()+ "F.\n\t" +s);
+				System.out.println();
+				System.out.println();
+			}
+		}
+	}
+}

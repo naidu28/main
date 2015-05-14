@@ -1,0 +1,56 @@
+package program5;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Location
+{
+    private String location;
+    private ArrayList<DayWeather> days = new ArrayList<DayWeather>();
+    private HashMap<CustomerCityRule, Boolean> appliedRules = new HashMap<CustomerCityRule, Boolean>();
+    
+    public Location(String location, List<CustomerCityRule> rules)
+    {
+        this.location = location;
+        for (CustomerCityRule r : rules) {
+            appliedRules.put(r, false);
+        }
+    }
+    
+   public void add(DayWeather day)
+    {
+        days.add(day);
+    }
+    
+	public DayWeather get(int i)
+	{
+		if (i < 0 || i >= days.size())
+			return null;
+			
+		return days.get(i);
+	}
+	
+	public boolean applyRule(CustomerCityRule r) {
+	    if (!appliedRules.get(r)) {
+	        appliedRules.put(r, new Boolean(true));
+	        return true;
+	    } 
+	    
+	    else return false;
+	}
+	        
+	public String getLocation() {
+		return location;
+	}
+	
+	public String toString()
+	{
+        return "Location: " + getLocation();
+
+	}
+
+	public int size() {
+        return days.size();
+    }
+
+}

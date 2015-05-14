@@ -1,0 +1,14 @@
+
+
+public class PlanParty implements CustomerCityRule 
+{
+    public boolean isApplicable(Location location) 
+    {
+    	if (Integer.parseInt(location.getTemp()) > 70 && Integer.parseInt(location.getTemp()) < 90){
+        	return true;
+        }
+        else{ 
+        	return false;
+        }
+    }
+}

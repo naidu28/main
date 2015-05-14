@@ -1,0 +1,6 @@
+Question 2:
+
+a. As offshore height increases between settings, wave height and relative wave height do not see much of a difference.
+b. Breakpoint goes closer to shore as offshore height increases.
+c. Changes in wave period do not change the shape of wave height and relative wave height plots much.
+d. Breakpoint goes further from shore as wave period increases (assuming the same offshore height).

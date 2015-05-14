@@ -1,0 +1,16 @@
+package program5;
+
+
+public class GoForRun implements CustomerCityRule 
+{
+    public boolean isApplicable(Location location) 
+    {
+        if (Integer.parseInt(location.getTemp()) >= 50 && Integer.parseInt(location.getTemp()) < 85){
+        	return true;
+        }
+        else{ 
+        	return false;
+        }
+    }
+
+}
